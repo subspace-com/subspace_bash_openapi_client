@@ -296,15 +296,18 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
-            "acceleratorServiceCreate[CreateAccelerator]" \
-            "acceleratorServiceDelete[DeleteAccelerator]" \
-            "acceleratorServiceGet[GetAccelerator]" \
-            "acceleratorServiceList[ListAccelerators]" \
-            "acceleratorServiceUpdate[UpdateAccelerator]"             "sipTeleportServiceCreate[CreateSipTeleport]" \
-            "sipTeleportServiceDelete[DeleteSipTeleport]" \
-            "sipTeleportServiceGet[GetSipTeleport]" \
-            "sipTeleportServiceList[ListSipTeleports]" \
-            "sipTeleportServiceUpdate[UpdateSipTeleport]" \
+            "acceleratorServiceCreate[]" \
+            "acceleratorServiceDelete[]" \
+            "acceleratorServiceGet[]" \
+            "acceleratorServiceList[]" \
+            "acceleratorServiceUpdate[]"             "projectServiceCreate[]" \
+            "projectServiceGet[]" \
+            "projectServiceList[]" \
+            "projectServiceUpdate[]"             "sessionServiceList[]"             "sipTeleportServiceCreate[]" \
+            "sipTeleportServiceDelete[]" \
+            "sipTeleportServiceGet[]" \
+            "sipTeleportServiceList[]" \
+            "sipTeleportServiceUpdate[]" \
 
     _arguments "(--help)--help[Print information about operation]"
 
@@ -338,7 +341,6 @@ case $state in
         _op_arguments=(
                     "before=:[QUERY] "
 "limit=:[QUERY] "
-"q=:[QUERY] q Provides a query string which filters accelerators in the response."
           )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
@@ -350,10 +352,48 @@ case $state in
 )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
-      sipTeleportServiceCreate)
+      projectServiceCreate)
         local -a _op_arguments
         _op_arguments=(
                               )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      projectServiceGet)
+        local -a _op_arguments
+        _op_arguments=(
+          "id=:[PATH] "
+                    )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      projectServiceList)
+        local -a _op_arguments
+        _op_arguments=(
+                    "before=:[QUERY] "
+"limit=:[QUERY] "
+          )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      projectServiceUpdate)
+        local -a _op_arguments
+        _op_arguments=(
+          "id=:[PATH] id is the project identity"
+                    )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      sessionServiceList)
+        local -a _op_arguments
+        _op_arguments=(
+          "accelerator_id=:[PATH] "
+          "before=:[QUERY] "
+"limit=:[QUERY] "
+          )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      sipTeleportServiceCreate)
+        local -a _op_arguments
+        _op_arguments=(
+                              "Idempotency-Key\::[HEADER] Value is the returned etag of a get request.  If a retry sends an Idempotency-Key that has been seen before, the existing teleport is returned with the status code of 200"
+)
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       sipTeleportServiceDelete)

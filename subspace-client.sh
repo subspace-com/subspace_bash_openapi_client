@@ -101,15 +101,24 @@ operation_parameters_minimum_occurrences["acceleratorServiceDelete:::id"]=1
 operation_parameters_minimum_occurrences["acceleratorServiceGet:::id"]=1
 operation_parameters_minimum_occurrences["acceleratorServiceList:::before"]=0
 operation_parameters_minimum_occurrences["acceleratorServiceList:::limit"]=0
-operation_parameters_minimum_occurrences["acceleratorServiceList:::q"]=0
 operation_parameters_minimum_occurrences["acceleratorServiceUpdate:::id"]=1
 operation_parameters_minimum_occurrences["acceleratorServiceUpdate:::Body1"]=1
 operation_parameters_minimum_occurrences["acceleratorServiceUpdate:::If-Match"]=0
+operation_parameters_minimum_occurrences["projectServiceGet:::id"]=1
+operation_parameters_minimum_occurrences["projectServiceList:::before"]=0
+operation_parameters_minimum_occurrences["projectServiceList:::limit"]=0
+operation_parameters_minimum_occurrences["projectServiceUpdate:::id"]=1
+operation_parameters_minimum_occurrences["sessionServiceList:::accelerator_id"]=1
+operation_parameters_minimum_occurrences["sessionServiceList:::before"]=0
+operation_parameters_minimum_occurrences["sessionServiceList:::limit"]=0
+operation_parameters_minimum_occurrences["sipTeleportServiceCreate:::V1CreateSipTeleport"]=1
+operation_parameters_minimum_occurrences["sipTeleportServiceCreate:::Idempotency-Key"]=0
 operation_parameters_minimum_occurrences["sipTeleportServiceDelete:::id"]=1
 operation_parameters_minimum_occurrences["sipTeleportServiceGet:::id"]=1
 operation_parameters_minimum_occurrences["sipTeleportServiceList:::before"]=0
 operation_parameters_minimum_occurrences["sipTeleportServiceList:::limit"]=0
 operation_parameters_minimum_occurrences["sipTeleportServiceUpdate:::id"]=1
+operation_parameters_minimum_occurrences["sipTeleportServiceUpdate:::V1UpdateSipTeleport"]=1
 
 ##
 # This array stores the maximum number of allowed occurrences for parameter
@@ -124,15 +133,24 @@ operation_parameters_maximum_occurrences["acceleratorServiceDelete:::id"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceGet:::id"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceList:::before"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceList:::limit"]=0
-operation_parameters_maximum_occurrences["acceleratorServiceList:::q"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceUpdate:::id"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceUpdate:::Body1"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceUpdate:::If-Match"]=0
+operation_parameters_maximum_occurrences["projectServiceGet:::id"]=0
+operation_parameters_maximum_occurrences["projectServiceList:::before"]=0
+operation_parameters_maximum_occurrences["projectServiceList:::limit"]=0
+operation_parameters_maximum_occurrences["projectServiceUpdate:::id"]=0
+operation_parameters_maximum_occurrences["sessionServiceList:::accelerator_id"]=0
+operation_parameters_maximum_occurrences["sessionServiceList:::before"]=0
+operation_parameters_maximum_occurrences["sessionServiceList:::limit"]=0
+operation_parameters_maximum_occurrences["sipTeleportServiceCreate:::V1CreateSipTeleport"]=0
+operation_parameters_maximum_occurrences["sipTeleportServiceCreate:::Idempotency-Key"]=0
 operation_parameters_maximum_occurrences["sipTeleportServiceDelete:::id"]=0
 operation_parameters_maximum_occurrences["sipTeleportServiceGet:::id"]=0
 operation_parameters_maximum_occurrences["sipTeleportServiceList:::before"]=0
 operation_parameters_maximum_occurrences["sipTeleportServiceList:::limit"]=0
 operation_parameters_maximum_occurrences["sipTeleportServiceUpdate:::id"]=0
+operation_parameters_maximum_occurrences["sipTeleportServiceUpdate:::V1UpdateSipTeleport"]=0
 
 ##
 # The type of collection for specifying multiple values for parameter:
@@ -144,15 +162,24 @@ operation_parameters_collection_type["acceleratorServiceDelete:::id"]=""
 operation_parameters_collection_type["acceleratorServiceGet:::id"]=""
 operation_parameters_collection_type["acceleratorServiceList:::before"]=""
 operation_parameters_collection_type["acceleratorServiceList:::limit"]=""
-operation_parameters_collection_type["acceleratorServiceList:::q"]=""
 operation_parameters_collection_type["acceleratorServiceUpdate:::id"]=""
 operation_parameters_collection_type["acceleratorServiceUpdate:::Body1"]=""
 operation_parameters_collection_type["acceleratorServiceUpdate:::If-Match"]=""
+operation_parameters_collection_type["projectServiceGet:::id"]=""
+operation_parameters_collection_type["projectServiceList:::before"]=""
+operation_parameters_collection_type["projectServiceList:::limit"]=""
+operation_parameters_collection_type["projectServiceUpdate:::id"]=""
+operation_parameters_collection_type["sessionServiceList:::accelerator_id"]=""
+operation_parameters_collection_type["sessionServiceList:::before"]=""
+operation_parameters_collection_type["sessionServiceList:::limit"]=""
+operation_parameters_collection_type["sipTeleportServiceCreate:::V1CreateSipTeleport"]=""
+operation_parameters_collection_type["sipTeleportServiceCreate:::Idempotency-Key"]=""
 operation_parameters_collection_type["sipTeleportServiceDelete:::id"]=""
 operation_parameters_collection_type["sipTeleportServiceGet:::id"]=""
 operation_parameters_collection_type["sipTeleportServiceList:::before"]=""
 operation_parameters_collection_type["sipTeleportServiceList:::limit"]=""
 operation_parameters_collection_type["sipTeleportServiceUpdate:::id"]=""
+operation_parameters_collection_type["sipTeleportServiceUpdate:::V1UpdateSipTeleport"]=""
 
 
 ##
@@ -520,26 +547,45 @@ EOF
     echo -e "        * accelerators:write - allows administration of PacketAccelerators"
     echo -e "        * sipteleport:read - allows reading details about provisioned SIPTeleport"
     echo -e "        * sipteleport:write - allows administration of SIPTeleport"
+    echo -e "        * sessions:read - allows reading details about PacketAccelerator sessions"
+    echo -e "        * sessions:write - allows administration of PacketAccelerator sessions"
+    echo -e "        * projects:read - allows reading details about projects"
+    echo -e "        * projects:write - allows administration of projects"
     echo ""
     echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
     echo ""
     echo -e "${BOLD}${WHITE}[acceleratorService]${OFF}"
 read -r -d '' ops <<EOF
-  ${CYAN}acceleratorServiceCreate${OFF};CreateAccelerator (AUTH)
-  ${CYAN}acceleratorServiceDelete${OFF};DeleteAccelerator (AUTH)
-  ${CYAN}acceleratorServiceGet${OFF};GetAccelerator (AUTH)
-  ${CYAN}acceleratorServiceList${OFF};ListAccelerators (AUTH)
-  ${CYAN}acceleratorServiceUpdate${OFF};UpdateAccelerator (AUTH)
+  ${CYAN}acceleratorServiceCreate${OFF}; (AUTH)
+  ${CYAN}acceleratorServiceDelete${OFF}; (AUTH)
+  ${CYAN}acceleratorServiceGet${OFF}; (AUTH)
+  ${CYAN}acceleratorServiceList${OFF}; (AUTH)
+  ${CYAN}acceleratorServiceUpdate${OFF}; (AUTH)
+EOF
+echo "  $ops" | column -t -s ';'
+    echo ""
+    echo -e "${BOLD}${WHITE}[projectService]${OFF}"
+read -r -d '' ops <<EOF
+  ${CYAN}projectServiceCreate${OFF}; (AUTH)
+  ${CYAN}projectServiceGet${OFF}; (AUTH)
+  ${CYAN}projectServiceList${OFF}; (AUTH)
+  ${CYAN}projectServiceUpdate${OFF}; (AUTH)
+EOF
+echo "  $ops" | column -t -s ';'
+    echo ""
+    echo -e "${BOLD}${WHITE}[sessionService]${OFF}"
+read -r -d '' ops <<EOF
+  ${CYAN}sessionServiceList${OFF}; (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
     echo -e "${BOLD}${WHITE}[sipTeleportService]${OFF}"
 read -r -d '' ops <<EOF
-  ${CYAN}sipTeleportServiceCreate${OFF};CreateSipTeleport (AUTH)
-  ${CYAN}sipTeleportServiceDelete${OFF};DeleteSipTeleport (AUTH)
-  ${CYAN}sipTeleportServiceGet${OFF};GetSipTeleport (AUTH)
-  ${CYAN}sipTeleportServiceList${OFF};ListSipTeleports (AUTH)
-  ${CYAN}sipTeleportServiceUpdate${OFF};UpdateSipTeleport (AUTH)
+  ${CYAN}sipTeleportServiceCreate${OFF}; (AUTH)
+  ${CYAN}sipTeleportServiceDelete${OFF}; (AUTH)
+  ${CYAN}sipTeleportServiceGet${OFF}; (AUTH)
+  ${CYAN}sipTeleportServiceList${OFF}; (AUTH)
+  ${CYAN}sipTeleportServiceUpdate${OFF}; (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
@@ -578,14 +624,12 @@ read -r -d '' appdescription <<EOF
 
 # Introduction
 
-The Subspace API is based on REST, has resource-oriented URLs, returns JSON-encoded responses, and returns standardHTTP response codes.
+The Subspace API is based on REST, has resource-oriented URLs, returns JSON-encoded responses, and returns standard HTTP response codes.
 
-The base URL for the API is 'https://api.subspace.com/'
+The base URL for the API is:  'https://api.subspace.com/'
 
 # Naming Convention
 
-**EARLY ACCESS NOTE:** There is no “stable” version yet.  Once there is, the version name **stable** will be used to access the latest stable API version.
-  * Example: 'https://api.subspace.com/stable'
 * Version name currently in use is: *v1*
   * Example: 'https://api.subspace.com/v1'
 
@@ -593,7 +637,7 @@ The base URL for the API is 'https://api.subspace.com/'
 
 ## API Tokens
 
-Subspace authenticates your API requests using JWT Bearer tokens.  The provided client library requires this JWT to be set before it can be used, by setting the local access token in the local configuration.  This is done by updating the configuration line marked \"YOUR ACCESS TOKEN\" by replacing the text \"YOUR ACCESS TOKEN\" with your JWT Bearer token.
+Subspace authenticates your API requests using JWT Bearer tokens. To use any Subspace API, you must pass a Bearer token with each request. If you do not include your Bearer token when making an API request, or use one that is incorrect or disabled, Subspace returns an error.
 
 Bearer tokens are granted by requesting one (as noted below) and presenting your publishable (client_id) and secret (client_secret) tokens.   
 
@@ -609,19 +653,86 @@ Subspace uses auth0 for JWT token management.  You can acquire a JWT token by ut
 
   * **JWT tokens have a expiration time of 24 hours.**  Once expired, you will have to use your Subspace private API and public token to request a new one.
   * The Subspace private token can be rotated from within the Subspace console.  Rotation may take up to 10 minutes for all systems to update state to invalidate the older token and enable the new one.
-* **Keep your secret token safe.** Your secret token can make any API call on behalf of your account, including changes that may impact billing such as enabling pay-as-you-go charges. Do not store your secret token in your version control system. Do not use your secret token outside your web server, such as a browser, mobile app, or distributed file.
+  * **Keep your secret token safe.** Your secret token can make any API call on behalf of your account, including changes that may impact billing such as enabling pay-as-you-go charges. Do not store your secret token in your version control system. Do not use your secret token outside your web server, such as a browser, mobile app, or distributed file.
   * **You may use the Subspace console to acquire an API token.**
- * **You may use the Subspace console to disable pay-as-you-go.** This may prevent unexpected charges due to unauthorized or abnormal usage.
+  * **You may use the Subspace console to disable pay-as-you-go.** This may prevent unexpected charges due to unauthorized or abnormal usage.
+  * **Do not embed API keys directly in code.** Instead of directly embedding API keys in your application’s code, put them in environment variables, or within include files that are stored separately from the bulk of your code—outside the source repository of your application. Then, if you share your code, the API keys will not be included in the shared files.
+  * **Do not store API tokens inside your application’s source control.** If you store API tokens in files, keep the files outside your application’s source control system. This is particularly important if you use a public source code management system such as GitHub.
+  * **Limit access with restricted tokens.** The Subspace console will allow you to specify the IP addresses or referrer URLs associated with each token, reducing the impact of a compromised API token.
+  * **Use independent API tokens for different apps.** This limits the scope of each token. If an API token is compromised, you can rotate the impacted token without impacting other API tokens.
 
-**Acquiring a valid JWT**
+# Error Codes
 
-Command line example:
-'''
-curl --request POST 
-         --url 'https://id.subspace.com/oauth/token' 
-         --header 'content-type: application/json' 
+Subspace uses HTTP response codes to indicate the success or failure of an API request. 
+
+General HTML status codes:
+  * 2xx Success. 
+  * 4xx Errors based on information provided in the request.
+  * 5xx Errors on Subspace servers.
+  
+# Security
+
+We provide a valid, signed certificate for our API methods. Be sure your connection library supports HTTPS with the SNI extension.
+
+# REST How-To
+
+Making your first REST API call is easy and can be done from your browser.  You will need:
+  * Your **secret** token and public client token, both found in the Console.
+  * The URL for the type of data you would like to request.
+
+First, acquire a JWT Bearer Token.  Command line example:
+    
+    curl --request POST \\
+         --url \"https://id.subspace.com/oauth/token\" \\
+         --header 'content-type: application/json' \\
          --data '{ \"client_id\": YOURCLIENTID, \"client_secret\": YOURCLIENTSECRET, \"audience\": \"https://api.subspace.com/\", \"grant_type\": \"client_credentials\" }'
-'''
+
+REST calls are made up of:
+  * Base url: Example: 'https://api.subspace.com'
+  * Version: Example: 'v1'
+  * The API Endpoint and any parameters: 'accelerators/acc_NDA3MUI5QzUtOTY4MC00Nz' where 'acc_NDA3MUI5QzUtOTY4MC00Nz' is a valid accelerator ID
+  * Accelerator ids are always of the format 'acc_NDA3MUI5QzUtOTY4MC00Nz', with a \"acc_\" prefix followed by 22 characters.
+  * Project ids are always of the format 'prj_00Iaqxjo71vNL1uLKKo5Kn', with a \"prj_\" prefix followed by 22 characters.
+  * Token header: All REST requests require a valid JWT Bearer token which should be added as an “Authorization” header to the request:
+      
+      'Authorization: Bearer YOUR_TOKEN_HERE'
+  
+## Authorization header example
+
+If your API token was “my_api_token”, you would add...
+
+    Authorization: Bearer my_api_token
+    
+...to the header.
+
+## Command line examples
+
+To list your current open packet_accelerators using the token “my_api_token”:
+
+    curl -H “Authorization: Bearer my_api_token” https://api.subspace.com/v1/accelerators
+    
+Alternately, to get the details of a specific accelerator whose id is 'abcd-ef01-2345':
+
+    curl -H “Authorization: Bearer my_api_token” https://api.subspace.com/v1/accelerators/abcd-ef01-2345
+
+# API Versioning
+
+Subspace will release new versions when we make backwards-incompatible changes to the API. We will give advance notice before releasing a new version or retiring an old version.
+
+Backwards compatible changes:
+  * Adding new response attributes
+  * Adding new endpoints
+  * Adding new methods to an existing endpoint
+  * Adding new query string parameters
+  * Adding new path parameters
+  * Adding new webhook events
+  * Adding new streaming endpoints
+  * Changing the order of existing response attributes
+  
+Versions are added to the base url, for example:
+  * 'https://api.subspace.com/v1'
+
+Current Version is **v1:** 'https://api.subspace.com/v1'
 EOF
 echo "$appdescription" | paste -sd' ' | fold -sw 80
 }
@@ -645,9 +756,7 @@ print_version() {
 ##############################################################################
 print_acceleratorServiceCreate_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}acceleratorServiceCreate - CreateAccelerator${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "CreateAccelerator generates a new PacketAccelerator" | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}acceleratorServiceCreate - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}Idempotency-Key${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - Value is the returned etag of a get request.  If a retry sends an Idempotency-Key that has been seen before, the existing accelerator is returned with the status code of 200 ${YELLOW}Specify as: Idempotency-Key:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -657,10 +766,18 @@ print_acceleratorServiceCreate_help() {
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=401
     echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
     echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=201
     echo -e "${result_color_table[${code:0:1}]}  201;Accelerator created${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
@@ -673,9 +790,7 @@ print_acceleratorServiceCreate_help() {
 ##############################################################################
 print_acceleratorServiceDelete_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}acceleratorServiceDelete - DeleteAccelerator${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "DeleteAccelerator deletes the given PacketAccelerator, specified by its id" | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}acceleratorServiceDelete - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -683,10 +798,18 @@ print_acceleratorServiceDelete_help() {
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=401
     echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
     echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -697,9 +820,7 @@ print_acceleratorServiceDelete_help() {
 ##############################################################################
 print_acceleratorServiceGet_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}acceleratorServiceGet - GetAccelerator${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "GetAccelerator returns the details of a given PacketAccelerator, specified by its id" | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}acceleratorServiceGet - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -709,10 +830,18 @@ print_acceleratorServiceGet_help() {
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
         echo -e "       ${BOLD}${WHITE}Response headers${OFF}"
         echo -e "       ${BLUE}ETag${OFF} - Include in the headers of a subsequent PUT to avoid concurrency issues" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=401
     echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
     echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -723,25 +852,29 @@ print_acceleratorServiceGet_help() {
 ##############################################################################
 print_acceleratorServiceList_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}acceleratorServiceList - ListAccelerators${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "ListAccelerators returns a list of all existing PacketAccelerators." | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}acceleratorServiceList - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}before${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: before=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}limit${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: limit=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}q${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - q Provides a query string which filters accelerators in the response.${YELLOW} Specify as: q=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=401
     echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
     echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -752,9 +885,7 @@ print_acceleratorServiceList_help() {
 ##############################################################################
 print_acceleratorServiceUpdate_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}acceleratorServiceUpdate - UpdateAccelerator${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "UpdateAccelerator updates an existing accelerator, specified by its id" | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}acceleratorServiceUpdate - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -765,10 +896,18 @@ print_acceleratorServiceUpdate_help() {
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=401
     echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
     echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=409
     echo -e "${result_color_table[${code:0:1}]}  409;Edit conflict${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
@@ -776,36 +915,28 @@ print_acceleratorServiceUpdate_help() {
 }
 ##############################################################################
 #
-# Print help for sipTeleportServiceCreate operation
+# Print help for projectServiceCreate operation
 #
 ##############################################################################
-print_sipTeleportServiceCreate_help() {
+print_projectServiceCreate_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}sipTeleportServiceCreate - CreateSipTeleport${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "CreateSipTeleport creates a new SIP Teleport" | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}projectServiceCreate - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=401
-    echo -e "${result_color_table[${code:0:1}]}  401;Returned when the user does not have permission to access the resource.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=404
-    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
-# Print help for sipTeleportServiceDelete operation
+# Print help for projectServiceGet operation
 #
 ##############################################################################
-print_sipTeleportServiceDelete_help() {
+print_projectServiceGet_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}sipTeleportServiceDelete - DeleteSipTeleport${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "DeleteSipTeleport deletes an existing SIP Teleport, specified by its id" | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}projectServiceGet - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -813,47 +944,17 @@ print_sipTeleportServiceDelete_help() {
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=401
-    echo -e "${result_color_table[${code:0:1}]}  401;Returned when the user does not have permission to access the resource.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=404
-    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
-# Print help for sipTeleportServiceGet operation
+# Print help for projectServiceList operation
 #
 ##############################################################################
-print_sipTeleportServiceGet_help() {
+print_projectServiceList_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}sipTeleportServiceGet - GetSipTeleport${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "GetSipTeleport fetches the details of a specific SIP Teleport, specified by its id" | paste -sd' ' | fold -sw 80
-    echo -e ""
-    echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo ""
-    echo -e "${BOLD}${WHITE}Responses${OFF}"
-    code=200
-    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=401
-    echo -e "${result_color_table[${code:0:1}]}  401;Returned when the user does not have permission to access the resource.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=404
-    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=0
-    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-}
-##############################################################################
-#
-# Print help for sipTeleportServiceList operation
-#
-##############################################################################
-print_sipTeleportServiceList_help() {
-    echo ""
-    echo -e "${BOLD}${WHITE}sipTeleportServiceList - ListSipTeleports${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "ListSipTeleports lists all SIP Teleports" | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}projectServiceList - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}before${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: before=value${OFF}" \
@@ -864,10 +965,185 @@ print_sipTeleportServiceList_help() {
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for projectServiceUpdate operation
+#
+##############################################################################
+print_projectServiceUpdate_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}projectServiceUpdate - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - id is the project identity ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for sessionServiceList operation
+#
+##############################################################################
+print_sessionServiceList_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}sessionServiceList - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}accelerator_id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: accelerator_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}before${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: before=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}limit${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: limit=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=401
-    echo -e "${result_color_table[${code:0:1}]}  401;Returned when the user does not have permission to access the resource.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
     echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for sipTeleportServiceCreate operation
+#
+##############################################################################
+print_sipTeleportServiceCreate_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}sipTeleportServiceCreate - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}Idempotency-Key${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - Value is the returned etag of a get request.  If a retry sends an Idempotency-Key that has been seen before, the existing teleport is returned with the status code of 200 ${YELLOW}Specify as: Idempotency-Key:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - Required parameters to create a new SIPTeleport" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=401
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for sipTeleportServiceDelete operation
+#
+##############################################################################
+print_sipTeleportServiceDelete_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}sipTeleportServiceDelete - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=401
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for sipTeleportServiceGet operation
+#
+##############################################################################
+print_sipTeleportServiceGet_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}sipTeleportServiceGet - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        echo -e "       ${BOLD}${WHITE}Response headers${OFF}"
+        echo -e "       ${BLUE}ETag${OFF} - Include in the headers of a subsequent PUT to avoid concurrency issues" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=401
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for sipTeleportServiceList operation
+#
+##############################################################################
+print_sipTeleportServiceList_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}sipTeleportServiceList - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}before${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: before=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}limit${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: limit=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=401
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -878,20 +1154,28 @@ print_sipTeleportServiceList_help() {
 ##############################################################################
 print_sipTeleportServiceUpdate_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}sipTeleportServiceUpdate - UpdateSipTeleport${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "UpdateSipTeleport updates an existing SIP Teleport, specified by its id" | paste -sd' ' | fold -sw 80
+    echo -e "${BOLD}${WHITE}sipTeleportServiceUpdate - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - Parameters to update an existing SIPTeleport, minimum requirement of one of them defined to update" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=401
-    echo -e "${result_color_table[${code:0:1}]}  401;Returned when the user does not have permission to access the resource.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
     echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -1058,7 +1342,7 @@ call_acceleratorServiceList() {
     local path_parameter_names=()
     # ignore error about 'query_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
-    local query_parameter_names=(before limit q  )
+    local query_parameter_names=(before limit  )
     local path
 
     if ! path=$(build_request_path "/v1/accelerators" path_parameter_names query_parameter_names); then
@@ -1163,6 +1447,186 @@ call_acceleratorServiceUpdate() {
 
 ##############################################################################
 #
+# Call projectServiceCreate operation
+#
+##############################################################################
+call_projectServiceCreate() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(  )
+    local path
+
+    if ! path=$(build_request_path "/v1/projects" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="POST"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call projectServiceGet operation
+#
+##############################################################################
+call_projectServiceGet() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=(id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(  )
+    local path
+
+    if ! path=$(build_request_path "/v1/projects/{id}" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="GET"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call projectServiceList operation
+#
+##############################################################################
+call_projectServiceList() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(before limit  )
+    local path
+
+    if ! path=$(build_request_path "/v1/projects" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="GET"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call projectServiceUpdate operation
+#
+##############################################################################
+call_projectServiceUpdate() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=(id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(  )
+    local path
+
+    if ! path=$(build_request_path "/v1/projects/{id}" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="PUT"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call sessionServiceList operation
+#
+##############################################################################
+call_sessionServiceList() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=(accelerator_id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(before limit  )
+    local path
+
+    if ! path=$(build_request_path "/v1/accelerators/{accelerator_id}/sessions" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="GET"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
 # Call sipTeleportServiceCreate operation
 #
 ##############################################################################
@@ -1190,10 +1654,52 @@ call_sipTeleportServiceCreate() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
-    if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the OpenAPI specification
+    # if values produces and consumes are defined unambigously
+    #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
     fi
 }
 
@@ -1334,10 +1840,52 @@ call_sipTeleportServiceUpdate() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
-    if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the OpenAPI specification
+    # if values produces and consumes are defined unambigously
+    #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
     fi
 }
 
@@ -1453,6 +2001,21 @@ case $key in
     acceleratorServiceUpdate)
     operation="acceleratorServiceUpdate"
     ;;
+    projectServiceCreate)
+    operation="projectServiceCreate"
+    ;;
+    projectServiceGet)
+    operation="projectServiceGet"
+    ;;
+    projectServiceList)
+    operation="projectServiceList"
+    ;;
+    projectServiceUpdate)
+    operation="projectServiceUpdate"
+    ;;
+    sessionServiceList)
+    operation="sessionServiceList"
+    ;;
     sipTeleportServiceCreate)
     operation="sipTeleportServiceCreate"
     ;;
@@ -1559,6 +2122,21 @@ case $operation in
     ;;
     acceleratorServiceUpdate)
     call_acceleratorServiceUpdate
+    ;;
+    projectServiceCreate)
+    call_projectServiceCreate
+    ;;
+    projectServiceGet)
+    call_projectServiceGet
+    ;;
+    projectServiceList)
+    call_projectServiceList
+    ;;
+    projectServiceUpdate)
+    call_projectServiceUpdate
+    ;;
+    sessionServiceList)
+    call_sessionServiceList
     ;;
     sipTeleportServiceCreate)
     call_sipTeleportServiceCreate

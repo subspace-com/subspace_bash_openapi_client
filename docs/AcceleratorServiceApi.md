@@ -4,19 +4,17 @@ All URIs are relative to **
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**acceleratorServiceCreate**](AcceleratorServiceApi.md#acceleratorServiceCreate) | **POST** /v1/accelerators | CreateAccelerator
-[**acceleratorServiceDelete**](AcceleratorServiceApi.md#acceleratorServiceDelete) | **DELETE** /v1/accelerators/{id} | DeleteAccelerator
-[**acceleratorServiceGet**](AcceleratorServiceApi.md#acceleratorServiceGet) | **GET** /v1/accelerators/{id} | GetAccelerator
-[**acceleratorServiceList**](AcceleratorServiceApi.md#acceleratorServiceList) | **GET** /v1/accelerators | ListAccelerators
-[**acceleratorServiceUpdate**](AcceleratorServiceApi.md#acceleratorServiceUpdate) | **PUT** /v1/accelerators/{id} | UpdateAccelerator
+[**acceleratorServiceCreate**](AcceleratorServiceApi.md#acceleratorServiceCreate) | **POST** /v1/accelerators | 
+[**acceleratorServiceDelete**](AcceleratorServiceApi.md#acceleratorServiceDelete) | **DELETE** /v1/accelerators/{id} | 
+[**acceleratorServiceGet**](AcceleratorServiceApi.md#acceleratorServiceGet) | **GET** /v1/accelerators/{id} | 
+[**acceleratorServiceList**](AcceleratorServiceApi.md#acceleratorServiceList) | **GET** /v1/accelerators | 
+[**acceleratorServiceUpdate**](AcceleratorServiceApi.md#acceleratorServiceUpdate) | **PUT** /v1/accelerators/{id} | 
 
 
 
 ## acceleratorServiceCreate
 
-CreateAccelerator
 
-CreateAccelerator generates a new PacketAccelerator
 
 ### Example
 
@@ -50,9 +48,7 @@ Name | Type | Description  | Notes
 
 ## acceleratorServiceDelete
 
-DeleteAccelerator
 
-DeleteAccelerator deletes the given PacketAccelerator, specified by its id
 
 ### Example
 
@@ -85,9 +81,7 @@ Name | Type | Description  | Notes
 
 ## acceleratorServiceGet
 
-GetAccelerator
 
-GetAccelerator returns the details of a given PacketAccelerator, specified by its id
 
 ### Example
 
@@ -120,14 +114,12 @@ Name | Type | Description  | Notes
 
 ## acceleratorServiceList
 
-ListAccelerators
 
-ListAccelerators returns a list of all existing PacketAccelerators.
 
 ### Example
 
 ```bash
-subspace-client.sh acceleratorServiceList  before=value  limit=value  q=value
+subspace-client.sh acceleratorServiceList  before=value  limit=value
 ```
 
 ### Parameters
@@ -137,7 +129,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **before** | **string** |  | [optional] [default to null]
  **limit** | **integer** |  | [optional] [default to null]
- **q** | **string** | q Provides a query string which filters accelerators in the response. | [optional] [default to null]
 
 ### Return type
 
@@ -157,9 +148,7 @@ Name | Type | Description  | Notes
 
 ## acceleratorServiceUpdate
 
-UpdateAccelerator
 
-UpdateAccelerator updates an existing accelerator, specified by its id
 
 ### Example
 

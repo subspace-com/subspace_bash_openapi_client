@@ -4,29 +4,31 @@ All URIs are relative to **
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**sipTeleportServiceCreate**](SipTeleportServiceApi.md#sipTeleportServiceCreate) | **POST** /v1/sip-teleports | CreateSipTeleport
-[**sipTeleportServiceDelete**](SipTeleportServiceApi.md#sipTeleportServiceDelete) | **DELETE** /v1/sip-teleports/{id} | DeleteSipTeleport
-[**sipTeleportServiceGet**](SipTeleportServiceApi.md#sipTeleportServiceGet) | **GET** /v1/sip-teleports/{id} | GetSipTeleport
-[**sipTeleportServiceList**](SipTeleportServiceApi.md#sipTeleportServiceList) | **GET** /v1/sip-teleports | ListSipTeleports
-[**sipTeleportServiceUpdate**](SipTeleportServiceApi.md#sipTeleportServiceUpdate) | **PUT** /v1/sip-teleports/{id} | UpdateSipTeleport
+[**sipTeleportServiceCreate**](SipTeleportServiceApi.md#sipTeleportServiceCreate) | **POST** /v1/sip-teleports | 
+[**sipTeleportServiceDelete**](SipTeleportServiceApi.md#sipTeleportServiceDelete) | **DELETE** /v1/sip-teleports/{id} | 
+[**sipTeleportServiceGet**](SipTeleportServiceApi.md#sipTeleportServiceGet) | **GET** /v1/sip-teleports/{id} | 
+[**sipTeleportServiceList**](SipTeleportServiceApi.md#sipTeleportServiceList) | **GET** /v1/sip-teleports | 
+[**sipTeleportServiceUpdate**](SipTeleportServiceApi.md#sipTeleportServiceUpdate) | **PUT** /v1/sip-teleports/{id} | 
 
 
 
 ## sipTeleportServiceCreate
 
-CreateSipTeleport
 
-CreateSipTeleport creates a new SIP Teleport
 
 ### Example
 
 ```bash
-subspace-client.sh sipTeleportServiceCreate
+subspace-client.sh sipTeleportServiceCreate Idempotency-Key:value
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **v1CreateSipTeleport** | [**V1CreateSipTeleport**](V1CreateSipTeleport.md) | Required parameters to create a new SIPTeleport |
+ **idempotencyKey** | **string** | Value is the returned etag of a get request.  If a retry sends an Idempotency-Key that has been seen before, the existing teleport is returned with the status code of 200 | [optional] [default to null]
 
 ### Return type
 
@@ -38,7 +40,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -46,9 +48,7 @@ This endpoint does not need any parameter.
 
 ## sipTeleportServiceDelete
 
-DeleteSipTeleport
 
-DeleteSipTeleport deletes an existing SIP Teleport, specified by its id
 
 ### Example
 
@@ -81,9 +81,7 @@ Name | Type | Description  | Notes
 
 ## sipTeleportServiceGet
 
-GetSipTeleport
 
-GetSipTeleport fetches the details of a specific SIP Teleport, specified by its id
 
 ### Example
 
@@ -116,9 +114,7 @@ Name | Type | Description  | Notes
 
 ## sipTeleportServiceList
 
-ListSipTeleports
 
-ListSipTeleports lists all SIP Teleports
 
 ### Example
 
@@ -152,9 +148,7 @@ Name | Type | Description  | Notes
 
 ## sipTeleportServiceUpdate
 
-UpdateSipTeleport
 
-UpdateSipTeleport updates an existing SIP Teleport, specified by its id
 
 ### Example
 
@@ -168,6 +162,7 @@ subspace-client.sh sipTeleportServiceUpdate id=value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string** |  | [default to null]
+ **v1UpdateSipTeleport** | [**V1UpdateSipTeleport**](V1UpdateSipTeleport.md) | Parameters to update an existing SIPTeleport, minimum requirement of one of them defined to update |
 
 ### Return type
 
@@ -179,7 +174,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

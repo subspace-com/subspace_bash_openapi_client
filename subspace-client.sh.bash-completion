@@ -73,6 +73,11 @@ _subspace-client.sh()
     operations["acceleratorServiceGet"]=1
     operations["acceleratorServiceList"]=1
     operations["acceleratorServiceUpdate"]=1
+    operations["projectServiceCreate"]=1
+    operations["projectServiceGet"]=1
+    operations["projectServiceList"]=1
+    operations["projectServiceUpdate"]=1
+    operations["sessionServiceList"]=1
     operations["sipTeleportServiceCreate"]=1
     operations["sipTeleportServiceDelete"]=1
     operations["sipTeleportServiceGet"]=1
@@ -85,9 +90,14 @@ _subspace-client.sh()
     operation_parameters["acceleratorServiceCreate"]="Idempotency-Key: "
     operation_parameters["acceleratorServiceDelete"]="id= "
     operation_parameters["acceleratorServiceGet"]="id= "
-    operation_parameters["acceleratorServiceList"]="before= limit= q= "
+    operation_parameters["acceleratorServiceList"]="before= limit= "
     operation_parameters["acceleratorServiceUpdate"]="id= If-Match: "
-    operation_parameters["sipTeleportServiceCreate"]=""
+    operation_parameters["projectServiceCreate"]=""
+    operation_parameters["projectServiceGet"]="id= "
+    operation_parameters["projectServiceList"]="before= limit= "
+    operation_parameters["projectServiceUpdate"]="id= "
+    operation_parameters["sessionServiceList"]="accelerator_id= before= limit= "
+    operation_parameters["sipTeleportServiceCreate"]="Idempotency-Key: "
     operation_parameters["sipTeleportServiceDelete"]="id= "
     operation_parameters["sipTeleportServiceGet"]="id= "
     operation_parameters["sipTeleportServiceList"]="before= limit= "
