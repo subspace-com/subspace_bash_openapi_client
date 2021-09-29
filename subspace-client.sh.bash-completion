@@ -73,6 +73,7 @@ _subspace-client.sh()
     operations["acceleratorServiceGet"]=1
     operations["acceleratorServiceList"]=1
     operations["acceleratorServiceUpdate"]=1
+    operations["globalTurnServiceGetGlobalTurn"]=1
     operations["projectServiceCreate"]=1
     operations["projectServiceGet"]=1
     operations["projectServiceList"]=1
@@ -92,6 +93,7 @@ _subspace-client.sh()
     operation_parameters["acceleratorServiceGet"]="id= "
     operation_parameters["acceleratorServiceList"]="before= limit= "
     operation_parameters["acceleratorServiceUpdate"]="id= If-Match: "
+    operation_parameters["globalTurnServiceGetGlobalTurn"]=""
     operation_parameters["projectServiceCreate"]=""
     operation_parameters["projectServiceGet"]="id= "
     operation_parameters["projectServiceList"]="before= limit= "

@@ -300,7 +300,7 @@ case $state in
             "acceleratorServiceDelete[]" \
             "acceleratorServiceGet[]" \
             "acceleratorServiceList[]" \
-            "acceleratorServiceUpdate[]"             "projectServiceCreate[]" \
+            "acceleratorServiceUpdate[]"             "globalTurnServiceGetGlobalTurn[]"             "projectServiceCreate[]" \
             "projectServiceGet[]" \
             "projectServiceList[]" \
             "projectServiceUpdate[]"             "sessionServiceList[]"             "sipTeleportServiceCreate[]" \
@@ -350,6 +350,12 @@ case $state in
           "id=:[PATH] "
                     "If-Match\::[HEADER] "
 )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      globalTurnServiceGetGlobalTurn)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       projectServiceCreate)
