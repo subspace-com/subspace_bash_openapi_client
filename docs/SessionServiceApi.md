@@ -4,7 +4,7 @@ All URIs are relative to **
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**sessionServiceList**](SessionServiceApi.md#sessionServiceList) | **GET** /v1/accelerators/{accelerator_id}/sessions | 
+[**sessionServiceList**](SessionServiceApi.md#sessionServiceList) | **GET** /v1/accelerator/{accelerator_id}/session | 
 
 
 

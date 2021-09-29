@@ -12,8 +12,6 @@ The base URL for the API is `https://api.subspace.com/`
 
 # Naming Convention
 
-**EARLY ACCESS NOTE:** There is no “stable” version yet.  Once there is, the version name **stable** will be used to access the latest stable API version.
-  * Example: `https://api.subspace.com/stable`
 * Version name currently in use is: *v1*
   * Example: `https://api.subspace.com/v1`
 
@@ -39,7 +37,7 @@ Subspace uses auth0 for JWT token management.  You can acquire a JWT token by ut
   * The Subspace private token can be rotated from within the Subspace console.  Rotation may take up to 10 minutes for all systems to update state to invalidate the older token and enable the new one.
 * **Keep your secret token safe.** Your secret token can make any API call on behalf of your account, including changes that may impact billing such as enabling pay-as-you-go charges. Do not store your secret token in your version control system. Do not use your secret token outside your web server, such as a browser, mobile app, or distributed file.
   * **You may use the Subspace console to acquire an API token.**
- * **You may use the Subspace console to disable pay-as-you-go.** This may prevent unexpected charges due to unauthorized or abnormal usage.
+  * **You may use the Subspace console to disable pay-as-you-go.** This may prevent unexpected charges due to unauthorized or abnormal usage.
 
 **Acquiring a valid JWT**
 
@@ -154,21 +152,22 @@ All URIs are relative to **
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AcceleratorServiceApi* | [**acceleratorServiceCreate**](docs/AcceleratorServiceApi.md#acceleratorservicecreate) | **POST** /v1/accelerators | 
-*AcceleratorServiceApi* | [**acceleratorServiceDelete**](docs/AcceleratorServiceApi.md#acceleratorservicedelete) | **DELETE** /v1/accelerators/{id} | 
-*AcceleratorServiceApi* | [**acceleratorServiceGet**](docs/AcceleratorServiceApi.md#acceleratorserviceget) | **GET** /v1/accelerators/{id} | 
-*AcceleratorServiceApi* | [**acceleratorServiceList**](docs/AcceleratorServiceApi.md#acceleratorservicelist) | **GET** /v1/accelerators | 
-*AcceleratorServiceApi* | [**acceleratorServiceUpdate**](docs/AcceleratorServiceApi.md#acceleratorserviceupdate) | **PUT** /v1/accelerators/{id} | 
-*ProjectServiceApi* | [**projectServiceCreate**](docs/ProjectServiceApi.md#projectservicecreate) | **POST** /v1/projects | 
-*ProjectServiceApi* | [**projectServiceGet**](docs/ProjectServiceApi.md#projectserviceget) | **GET** /v1/projects/{id} | 
-*ProjectServiceApi* | [**projectServiceList**](docs/ProjectServiceApi.md#projectservicelist) | **GET** /v1/projects | 
-*ProjectServiceApi* | [**projectServiceUpdate**](docs/ProjectServiceApi.md#projectserviceupdate) | **PUT** /v1/projects/{id} | 
-*SessionServiceApi* | [**sessionServiceList**](docs/SessionServiceApi.md#sessionservicelist) | **GET** /v1/accelerators/{accelerator_id}/sessions | 
-*SipTeleportServiceApi* | [**sipTeleportServiceCreate**](docs/SipTeleportServiceApi.md#sipteleportservicecreate) | **POST** /v1/sip-teleports | 
-*SipTeleportServiceApi* | [**sipTeleportServiceDelete**](docs/SipTeleportServiceApi.md#sipteleportservicedelete) | **DELETE** /v1/sip-teleports/{id} | 
-*SipTeleportServiceApi* | [**sipTeleportServiceGet**](docs/SipTeleportServiceApi.md#sipteleportserviceget) | **GET** /v1/sip-teleports/{id} | 
-*SipTeleportServiceApi* | [**sipTeleportServiceList**](docs/SipTeleportServiceApi.md#sipteleportservicelist) | **GET** /v1/sip-teleports | 
-*SipTeleportServiceApi* | [**sipTeleportServiceUpdate**](docs/SipTeleportServiceApi.md#sipteleportserviceupdate) | **PUT** /v1/sip-teleports/{id} | 
+*AcceleratorServiceApi* | [**acceleratorServiceCreate**](docs/AcceleratorServiceApi.md#acceleratorservicecreate) | **POST** /v1/accelerator | 
+*AcceleratorServiceApi* | [**acceleratorServiceDelete**](docs/AcceleratorServiceApi.md#acceleratorservicedelete) | **DELETE** /v1/accelerator/{id} | 
+*AcceleratorServiceApi* | [**acceleratorServiceGet**](docs/AcceleratorServiceApi.md#acceleratorserviceget) | **GET** /v1/accelerator/{id} | 
+*AcceleratorServiceApi* | [**acceleratorServiceList**](docs/AcceleratorServiceApi.md#acceleratorservicelist) | **GET** /v1/accelerator | 
+*AcceleratorServiceApi* | [**acceleratorServiceUpdate**](docs/AcceleratorServiceApi.md#acceleratorserviceupdate) | **PUT** /v1/accelerator/{id} | 
+*GlobalTurnServiceApi* | [**globalTurnServiceGetGlobalTurn**](docs/GlobalTurnServiceApi.md#globalturnservicegetglobalturn) | **POST** /v1/globalturn | 
+*ProjectServiceApi* | [**projectServiceCreate**](docs/ProjectServiceApi.md#projectservicecreate) | **POST** /v1/project | 
+*ProjectServiceApi* | [**projectServiceGet**](docs/ProjectServiceApi.md#projectserviceget) | **GET** /v1/project/{id} | 
+*ProjectServiceApi* | [**projectServiceList**](docs/ProjectServiceApi.md#projectservicelist) | **GET** /v1/project | 
+*ProjectServiceApi* | [**projectServiceUpdate**](docs/ProjectServiceApi.md#projectserviceupdate) | **PUT** /v1/project/{id} | 
+*SessionServiceApi* | [**sessionServiceList**](docs/SessionServiceApi.md#sessionservicelist) | **GET** /v1/accelerator/{accelerator_id}/session | 
+*SipTeleportServiceApi* | [**sipTeleportServiceCreate**](docs/SipTeleportServiceApi.md#sipteleportservicecreate) | **POST** /v1/sipteleport | 
+*SipTeleportServiceApi* | [**sipTeleportServiceDelete**](docs/SipTeleportServiceApi.md#sipteleportservicedelete) | **DELETE** /v1/sipteleport/{id} | 
+*SipTeleportServiceApi* | [**sipTeleportServiceGet**](docs/SipTeleportServiceApi.md#sipteleportserviceget) | **GET** /v1/sipteleport/{id} | 
+*SipTeleportServiceApi* | [**sipTeleportServiceList**](docs/SipTeleportServiceApi.md#sipteleportservicelist) | **GET** /v1/sipteleport | 
+*SipTeleportServiceApi* | [**sipTeleportServiceUpdate**](docs/SipTeleportServiceApi.md#sipteleportserviceupdate) | **PUT** /v1/sipteleport/{id} | 
 
 
 ## Documentation For Models
@@ -178,13 +177,14 @@ Class | Method | HTTP request | Description
  - [ProtobufAny](docs/ProtobufAny.md)
  - [V1Accelerator](docs/V1Accelerator.md)
  - [V1CreateSipTeleport](docs/V1CreateSipTeleport.md)
- - [V1ListAcceleratorsResponse](docs/V1ListAcceleratorsResponse.md)
+ - [V1GlobalTurnResponse](docs/V1GlobalTurnResponse.md)
+ - [V1GlobalTurnServer](docs/V1GlobalTurnServer.md)
+ - [V1ListAcceleratorResponse](docs/V1ListAcceleratorResponse.md)
  - [V1ListProjectsResponse](docs/V1ListProjectsResponse.md)
  - [V1ListSessionsResponse](docs/V1ListSessionsResponse.md)
  - [V1ListSipTeleportResponse](docs/V1ListSipTeleportResponse.md)
  - [V1NextPage](docs/V1NextPage.md)
  - [V1Project](docs/V1Project.md)
- - [V1Protocol](docs/V1Protocol.md)
  - [V1Session](docs/V1Session.md)
  - [V1SipTeleportResponse](docs/V1SipTeleportResponse.md)
  - [V1SipTeleportStatus](docs/V1SipTeleportStatus.md)
@@ -205,10 +205,12 @@ Class | Method | HTTP request | Description
 - **Scopes**:
   - **accelerators:read**: allows reading details about provisioned PacketAccelerators
   - **accelerators:write**: allows administration of PacketAccelerators
+  - **console:access**: allows access to the console
   - **sipteleport:read**: allows reading details about provisioned SIPTeleport
   - **sipteleport:write**: allows administration of SIPTeleport
   - **sessions:read**: allows reading details about PacketAccelerator sessions
-  - **sessions:write**: allows administration of PacketAccelerator sessions
   - **projects:read**: allows reading details about projects
   - **projects:write**: allows administration of projects
-
+  - **globalturn:access**: allows administration of GlobalTurn
+  - **rtpspeed:read**: allows reading details about rtpspeed
+  - **rtpspeed:write**: allows administration of rtpspeed

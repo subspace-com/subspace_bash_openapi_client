@@ -545,12 +545,15 @@ EOF
     echo -e "      Scopes:"
     echo -e "        * accelerators:read - allows reading details about provisioned PacketAccelerators"
     echo -e "        * accelerators:write - allows administration of PacketAccelerators"
+    echo -e "        * console:access - allows access to the console"
     echo -e "        * sipteleport:read - allows reading details about provisioned SIPTeleport"
     echo -e "        * sipteleport:write - allows administration of SIPTeleport"
     echo -e "        * sessions:read - allows reading details about PacketAccelerator sessions"
-    echo -e "        * sessions:write - allows administration of PacketAccelerator sessions"
     echo -e "        * projects:read - allows reading details about projects"
     echo -e "        * projects:write - allows administration of projects"
+    echo -e "        * globalturn:access - allows administration of GlobalTurn"
+    echo -e "        * rtpspeed:read - allows reading details about rtpspeed"
+    echo -e "        * rtpspeed:write - allows administration of rtpspeed"
     echo ""
     echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
     echo ""
@@ -561,6 +564,12 @@ read -r -d '' ops <<EOF
   ${CYAN}acceleratorServiceGet${OFF}; (AUTH)
   ${CYAN}acceleratorServiceList${OFF}; (AUTH)
   ${CYAN}acceleratorServiceUpdate${OFF}; (AUTH)
+EOF
+echo "  $ops" | column -t -s ';'
+    echo ""
+    echo -e "${BOLD}${WHITE}[globalTurnService]${OFF}"
+read -r -d '' ops <<EOF
+  ${CYAN}globalTurnServiceGetGlobalTurn${OFF}; (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
@@ -685,12 +694,12 @@ First, acquire a JWT Bearer Token.  Command line example:
     curl --request POST \\
          --url \"https://id.subspace.com/oauth/token\" \\
          --header 'content-type: application/json' \\
-         --data '{ \"client_id\": YOURCLIENTID, \"client_secret\": YOURCLIENTSECRET, \"audience\": \"https://api.subspace.com/\", \"grant_type\": \"client_credentials\" }'
+         --data '{ \"client_id\": \"YOURCLIENTID\", \"client_secret\": \"YOURCLIENTSECRET\", \"audience\": \"https://api.subspace.com/\", \"grant_type\": \"client_credentials\" }'
 
 REST calls are made up of:
   * Base url: Example: 'https://api.subspace.com'
   * Version: Example: 'v1'
-  * The API Endpoint and any parameters: 'accelerators/acc_NDA3MUI5QzUtOTY4MC00Nz' where 'acc_NDA3MUI5QzUtOTY4MC00Nz' is a valid accelerator ID
+  * The API Endpoint and any parameters: 'accelerator/acc_NDA3MUI5QzUtOTY4MC00Nz' where 'acc_NDA3MUI5QzUtOTY4MC00Nz' is a valid accelerator ID
   * Accelerator ids are always of the format 'acc_NDA3MUI5QzUtOTY4MC00Nz', with a \"acc_\" prefix followed by 22 characters.
   * Project ids are always of the format 'prj_00Iaqxjo71vNL1uLKKo5Kn', with a \"prj_\" prefix followed by 22 characters.
   * Token header: All REST requests require a valid JWT Bearer token which should be added as an “Authorization” header to the request:
@@ -709,11 +718,11 @@ If your API token was “my_api_token”, you would add...
 
 To list your current open packet_accelerators using the token “my_api_token”:
 
-    curl -H “Authorization: Bearer my_api_token” https://api.subspace.com/v1/accelerators
+    curl -H “Authorization: Bearer my_api_token” https://api.subspace.com/v1/accelerator
     
 Alternately, to get the details of a specific accelerator whose id is 'abcd-ef01-2345':
 
-    curl -H “Authorization: Bearer my_api_token” https://api.subspace.com/v1/accelerators/abcd-ef01-2345
+    curl -H “Authorization: Bearer my_api_token” https://api.subspace.com/v1/accelerator/abcd-ef01-2345
 
 # API Versioning
 
@@ -910,6 +919,34 @@ print_acceleratorServiceUpdate_help() {
     echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=409
     echo -e "${result_color_table[${code:0:1}]}  409;Edit conflict${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for globalTurnServiceGetGlobalTurn operation
+#
+##############################################################################
+print_globalTurnServiceGetGlobalTurn_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}globalTurnServiceGetGlobalTurn - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=401
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -1195,7 +1232,7 @@ call_acceleratorServiceCreate() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/accelerators" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/accelerator" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1273,7 +1310,7 @@ call_acceleratorServiceDelete() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/accelerators/{id}" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/accelerator/{id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1309,7 +1346,7 @@ call_acceleratorServiceGet() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/accelerators/{id}" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/accelerator/{id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1345,7 +1382,7 @@ call_acceleratorServiceList() {
     local query_parameter_names=(before limit  )
     local path
 
-    if ! path=$(build_request_path "/v1/accelerators" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/accelerator" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1381,7 +1418,7 @@ call_acceleratorServiceUpdate() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/accelerators/{id}" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/accelerator/{id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1447,6 +1484,42 @@ call_acceleratorServiceUpdate() {
 
 ##############################################################################
 #
+# Call globalTurnServiceGetGlobalTurn operation
+#
+##############################################################################
+call_globalTurnServiceGetGlobalTurn() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(  )
+    local path
+
+    if ! path=$(build_request_path "/v1/globalturn" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="POST"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
 # Call projectServiceCreate operation
 #
 ##############################################################################
@@ -1459,7 +1532,7 @@ call_projectServiceCreate() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/projects" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/project" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1495,7 +1568,7 @@ call_projectServiceGet() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/projects/{id}" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/project/{id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1531,7 +1604,7 @@ call_projectServiceList() {
     local query_parameter_names=(before limit  )
     local path
 
-    if ! path=$(build_request_path "/v1/projects" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/project" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1567,7 +1640,7 @@ call_projectServiceUpdate() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/projects/{id}" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/project/{id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1603,7 +1676,7 @@ call_sessionServiceList() {
     local query_parameter_names=(before limit  )
     local path
 
-    if ! path=$(build_request_path "/v1/accelerators/{accelerator_id}/sessions" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/accelerator/{accelerator_id}/session" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1639,7 +1712,7 @@ call_sipTeleportServiceCreate() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/sip-teleports" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/sipteleport" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1717,7 +1790,7 @@ call_sipTeleportServiceDelete() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/sip-teleports/{id}" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/sipteleport/{id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1753,7 +1826,7 @@ call_sipTeleportServiceGet() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/sip-teleports/{id}" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/sipteleport/{id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1789,7 +1862,7 @@ call_sipTeleportServiceList() {
     local query_parameter_names=(before limit  )
     local path
 
-    if ! path=$(build_request_path "/v1/sip-teleports" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/sipteleport" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -1825,7 +1898,7 @@ call_sipTeleportServiceUpdate() {
     local query_parameter_names=(  )
     local path
 
-    if ! path=$(build_request_path "/v1/sip-teleports/{id}" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v1/sipteleport/{id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -2001,6 +2074,9 @@ case $key in
     acceleratorServiceUpdate)
     operation="acceleratorServiceUpdate"
     ;;
+    globalTurnServiceGetGlobalTurn)
+    operation="globalTurnServiceGetGlobalTurn"
+    ;;
     projectServiceCreate)
     operation="projectServiceCreate"
     ;;
@@ -2122,6 +2198,9 @@ case $operation in
     ;;
     acceleratorServiceUpdate)
     call_acceleratorServiceUpdate
+    ;;
+    globalTurnServiceGetGlobalTurn)
+    call_globalTurnServiceGetGlobalTurn
     ;;
     projectServiceCreate)
     call_projectServiceCreate
