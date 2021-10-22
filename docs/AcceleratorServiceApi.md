@@ -119,7 +119,7 @@ Name | Type | Description  | Notes
 ### Example
 
 ```bash
-subspace-client.sh acceleratorServiceList  before=value  limit=value
+subspace-client.sh acceleratorServiceList  before=value  limit=value  name=value
 ```
 
 ### Parameters
@@ -129,6 +129,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **before** | **string** |  | [optional] [default to null]
  **limit** | **integer** |  | [optional] [default to null]
+ **name** | **string** |  | [optional] [default to null]
 
 ### Return type
 

@@ -303,7 +303,8 @@ case $state in
             "acceleratorServiceUpdate[]"             "globalTurnServiceGetGlobalTurn[]"             "projectServiceCreate[]" \
             "projectServiceGet[]" \
             "projectServiceList[]" \
-            "projectServiceUpdate[]"             "sessionServiceList[]"             "sipTeleportServiceCreate[]" \
+            "projectServiceUpdate[]"             "sessionServiceList[]" \
+            "sessionServiceList2[]"             "sipTeleportServiceCreate[]" \
             "sipTeleportServiceDelete[]" \
             "sipTeleportServiceGet[]" \
             "sipTeleportServiceList[]" \
@@ -341,6 +342,7 @@ case $state in
         _op_arguments=(
                     "before=:[QUERY] "
 "limit=:[QUERY] "
+"name=:[QUERY] "
           )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
@@ -387,6 +389,15 @@ case $state in
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       sessionServiceList)
+        local -a _op_arguments
+        _op_arguments=(
+          "accelerator_id=:[PATH] "
+          "before=:[QUERY] "
+"limit=:[QUERY] "
+          )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      sessionServiceList2)
         local -a _op_arguments
         _op_arguments=(
           "accelerator_id=:[PATH] "

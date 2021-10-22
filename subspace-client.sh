@@ -101,6 +101,7 @@ operation_parameters_minimum_occurrences["acceleratorServiceDelete:::id"]=1
 operation_parameters_minimum_occurrences["acceleratorServiceGet:::id"]=1
 operation_parameters_minimum_occurrences["acceleratorServiceList:::before"]=0
 operation_parameters_minimum_occurrences["acceleratorServiceList:::limit"]=0
+operation_parameters_minimum_occurrences["acceleratorServiceList:::name"]=0
 operation_parameters_minimum_occurrences["acceleratorServiceUpdate:::id"]=1
 operation_parameters_minimum_occurrences["acceleratorServiceUpdate:::Body1"]=1
 operation_parameters_minimum_occurrences["acceleratorServiceUpdate:::If-Match"]=0
@@ -111,6 +112,9 @@ operation_parameters_minimum_occurrences["projectServiceUpdate:::id"]=1
 operation_parameters_minimum_occurrences["sessionServiceList:::accelerator_id"]=1
 operation_parameters_minimum_occurrences["sessionServiceList:::before"]=0
 operation_parameters_minimum_occurrences["sessionServiceList:::limit"]=0
+operation_parameters_minimum_occurrences["sessionServiceList2:::accelerator_id"]=1
+operation_parameters_minimum_occurrences["sessionServiceList2:::before"]=0
+operation_parameters_minimum_occurrences["sessionServiceList2:::limit"]=0
 operation_parameters_minimum_occurrences["sipTeleportServiceCreate:::V1CreateSipTeleport"]=1
 operation_parameters_minimum_occurrences["sipTeleportServiceCreate:::Idempotency-Key"]=0
 operation_parameters_minimum_occurrences["sipTeleportServiceDelete:::id"]=1
@@ -133,6 +137,7 @@ operation_parameters_maximum_occurrences["acceleratorServiceDelete:::id"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceGet:::id"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceList:::before"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceList:::limit"]=0
+operation_parameters_maximum_occurrences["acceleratorServiceList:::name"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceUpdate:::id"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceUpdate:::Body1"]=0
 operation_parameters_maximum_occurrences["acceleratorServiceUpdate:::If-Match"]=0
@@ -143,6 +148,9 @@ operation_parameters_maximum_occurrences["projectServiceUpdate:::id"]=0
 operation_parameters_maximum_occurrences["sessionServiceList:::accelerator_id"]=0
 operation_parameters_maximum_occurrences["sessionServiceList:::before"]=0
 operation_parameters_maximum_occurrences["sessionServiceList:::limit"]=0
+operation_parameters_maximum_occurrences["sessionServiceList2:::accelerator_id"]=0
+operation_parameters_maximum_occurrences["sessionServiceList2:::before"]=0
+operation_parameters_maximum_occurrences["sessionServiceList2:::limit"]=0
 operation_parameters_maximum_occurrences["sipTeleportServiceCreate:::V1CreateSipTeleport"]=0
 operation_parameters_maximum_occurrences["sipTeleportServiceCreate:::Idempotency-Key"]=0
 operation_parameters_maximum_occurrences["sipTeleportServiceDelete:::id"]=0
@@ -162,6 +170,7 @@ operation_parameters_collection_type["acceleratorServiceDelete:::id"]=""
 operation_parameters_collection_type["acceleratorServiceGet:::id"]=""
 operation_parameters_collection_type["acceleratorServiceList:::before"]=""
 operation_parameters_collection_type["acceleratorServiceList:::limit"]=""
+operation_parameters_collection_type["acceleratorServiceList:::name"]=""
 operation_parameters_collection_type["acceleratorServiceUpdate:::id"]=""
 operation_parameters_collection_type["acceleratorServiceUpdate:::Body1"]=""
 operation_parameters_collection_type["acceleratorServiceUpdate:::If-Match"]=""
@@ -172,6 +181,9 @@ operation_parameters_collection_type["projectServiceUpdate:::id"]=""
 operation_parameters_collection_type["sessionServiceList:::accelerator_id"]=""
 operation_parameters_collection_type["sessionServiceList:::before"]=""
 operation_parameters_collection_type["sessionServiceList:::limit"]=""
+operation_parameters_collection_type["sessionServiceList2:::accelerator_id"]=""
+operation_parameters_collection_type["sessionServiceList2:::before"]=""
+operation_parameters_collection_type["sessionServiceList2:::limit"]=""
 operation_parameters_collection_type["sipTeleportServiceCreate:::V1CreateSipTeleport"]=""
 operation_parameters_collection_type["sipTeleportServiceCreate:::Idempotency-Key"]=""
 operation_parameters_collection_type["sipTeleportServiceDelete:::id"]=""
@@ -585,6 +597,7 @@ echo "  $ops" | column -t -s ';'
     echo -e "${BOLD}${WHITE}[sessionService]${OFF}"
 read -r -d '' ops <<EOF
   ${CYAN}sessionServiceList${OFF}; (AUTH)
+  ${CYAN}sessionServiceList2${OFF}; (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
@@ -868,6 +881,8 @@ print_acceleratorServiceList_help() {
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}limit${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: limit=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}name${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: name=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
@@ -1031,6 +1046,40 @@ print_projectServiceUpdate_help() {
 print_sessionServiceList_help() {
     echo ""
     echo -e "${BOLD}${WHITE}sessionServiceList - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}accelerator_id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: accelerator_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}before${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: before=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}limit${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: limit=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=401
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for sessionServiceList2 operation
+#
+##############################################################################
+print_sessionServiceList2_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}sessionServiceList2 - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}accelerator_id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: accelerator_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1379,7 +1428,7 @@ call_acceleratorServiceList() {
     local path_parameter_names=()
     # ignore error about 'query_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
-    local query_parameter_names=(before limit  )
+    local query_parameter_names=(before limit name  )
     local path
 
     if ! path=$(build_request_path "/v1/accelerator" path_parameter_names query_parameter_names); then
@@ -1677,6 +1726,42 @@ call_sessionServiceList() {
     local path
 
     if ! path=$(build_request_path "/v1/accelerator/{accelerator_id}/session" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="GET"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call sessionServiceList2 operation
+#
+##############################################################################
+call_sessionServiceList2() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=(accelerator_id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(before limit  )
+    local path
+
+    if ! path=$(build_request_path "/v1/accelerators/{accelerator_id}/sessions" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -2092,6 +2177,9 @@ case $key in
     sessionServiceList)
     operation="sessionServiceList"
     ;;
+    sessionServiceList2)
+    operation="sessionServiceList2"
+    ;;
     sipTeleportServiceCreate)
     operation="sipTeleportServiceCreate"
     ;;
@@ -2216,6 +2304,9 @@ case $operation in
     ;;
     sessionServiceList)
     call_sessionServiceList
+    ;;
+    sessionServiceList2)
+    call_sessionServiceList2
     ;;
     sipTeleportServiceCreate)
     call_sipTeleportServiceCreate
