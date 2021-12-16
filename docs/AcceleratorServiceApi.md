@@ -27,7 +27,7 @@ subspace-client.sh acceleratorServiceCreate Idempotency-Key:value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Body**](Body.md) | Required parameters to create a new PacketAccelerator.  NOTE- only subspace_port is optional |
+ **body** | [**Body**](Body.md) | Required parameters to create a new PacketAccelerator. |
  **idempotencyKey** | **string** | Value is the returned etag of a get request.  If a retry sends an Idempotency-Key that has been seen before, the existing accelerator is returned with the status code of 200 | [optional] [default to null]
 
 ### Return type
@@ -163,7 +163,7 @@ subspace-client.sh acceleratorServiceUpdate id=value If-Match:value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string** |  | [default to null]
- **body1** | [**Body1**](Body1.md) | Parameters to update an existing PacketAccelerator, minimum requirement of one of them defined to update |
+ **body1** | [**Body1**](Body1.md) | Parameters to update an existing PacketAccelerator |
  **ifMatch** | **integer** |  | [optional] [default to null]
 
 ### Return type

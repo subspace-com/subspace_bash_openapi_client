@@ -300,11 +300,7 @@ case $state in
             "acceleratorServiceDelete[]" \
             "acceleratorServiceGet[]" \
             "acceleratorServiceList[]" \
-            "acceleratorServiceUpdate[]"             "globalTurnServiceGetGlobalTurn[]"             "projectServiceCreate[]" \
-            "projectServiceGet[]" \
-            "projectServiceList[]" \
-            "projectServiceUpdate[]"             "sessionServiceList[]" \
-            "sessionServiceList2[]"             "sipTeleportServiceCreate[]" \
+            "acceleratorServiceUpdate[]"             "globalTurnServiceGetGlobalTurn[]"             "sipTeleportServiceCreate[]" \
             "sipTeleportServiceDelete[]" \
             "sipTeleportServiceGet[]" \
             "sipTeleportServiceList[]" \
@@ -358,52 +354,6 @@ case $state in
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
-      projectServiceCreate)
-        local -a _op_arguments
-        _op_arguments=(
-                              )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
-      projectServiceGet)
-        local -a _op_arguments
-        _op_arguments=(
-          "id=:[PATH] "
-                    )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
-      projectServiceList)
-        local -a _op_arguments
-        _op_arguments=(
-                    "before=:[QUERY] "
-"limit=:[QUERY] "
-          )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
-      projectServiceUpdate)
-        local -a _op_arguments
-        _op_arguments=(
-          "id=:[PATH] id is the project identity"
-                    )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
-      sessionServiceList)
-        local -a _op_arguments
-        _op_arguments=(
-          "accelerator_id=:[PATH] "
-          "before=:[QUERY] "
-"limit=:[QUERY] "
-          )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
-      sessionServiceList2)
-        local -a _op_arguments
-        _op_arguments=(
-          "accelerator_id=:[PATH] "
-          "before=:[QUERY] "
-"limit=:[QUERY] "
-          )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       sipTeleportServiceCreate)

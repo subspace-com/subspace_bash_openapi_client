@@ -3,7 +3,6 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**protocol** | **string** |  | [default to null]
 **name** | **string** |  | [default to null]
 **destinationUnderscoreip** | **string** |  | [default to null]
 **destinationUnderscoreport** | **integer** |  | [default to null]

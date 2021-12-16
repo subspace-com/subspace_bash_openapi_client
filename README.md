@@ -106,12 +106,6 @@ Class | Method | HTTP request | Description
 *AcceleratorServiceApi* | [**acceleratorServiceList**](docs/AcceleratorServiceApi.md#acceleratorservicelist) | **GET** /v1/accelerator | 
 *AcceleratorServiceApi* | [**acceleratorServiceUpdate**](docs/AcceleratorServiceApi.md#acceleratorserviceupdate) | **PUT** /v1/accelerator/{id} | 
 *GlobalTurnServiceApi* | [**globalTurnServiceGetGlobalTurn**](docs/GlobalTurnServiceApi.md#globalturnservicegetglobalturn) | **POST** /v1/globalturn | 
-*ProjectServiceApi* | [**projectServiceCreate**](docs/ProjectServiceApi.md#projectservicecreate) | **POST** /v1/project | 
-*ProjectServiceApi* | [**projectServiceGet**](docs/ProjectServiceApi.md#projectserviceget) | **GET** /v1/project/{id} | 
-*ProjectServiceApi* | [**projectServiceList**](docs/ProjectServiceApi.md#projectservicelist) | **GET** /v1/project | 
-*ProjectServiceApi* | [**projectServiceUpdate**](docs/ProjectServiceApi.md#projectserviceupdate) | **PUT** /v1/project/{id} | 
-*SessionServiceApi* | [**sessionServiceList**](docs/SessionServiceApi.md#sessionservicelist) | **GET** /v1/accelerator/{accelerator_id}/session | 
-*SessionServiceApi* | [**sessionServiceList2**](docs/SessionServiceApi.md#sessionservicelist2) | **GET** /v1/accelerators/{accelerator_id}/sessions | 
 *SipTeleportServiceApi* | [**sipTeleportServiceCreate**](docs/SipTeleportServiceApi.md#sipteleportservicecreate) | **POST** /v1/sipteleport | 
 *SipTeleportServiceApi* | [**sipTeleportServiceDelete**](docs/SipTeleportServiceApi.md#sipteleportservicedelete) | **DELETE** /v1/sipteleport/{id} | 
 *SipTeleportServiceApi* | [**sipTeleportServiceGet**](docs/SipTeleportServiceApi.md#sipteleportserviceget) | **GET** /v1/sipteleport/{id} | 
@@ -129,12 +123,8 @@ Class | Method | HTTP request | Description
  - [V1GlobalTurnResponse](docs/V1GlobalTurnResponse.md)
  - [V1GlobalTurnServer](docs/V1GlobalTurnServer.md)
  - [V1ListAcceleratorResponse](docs/V1ListAcceleratorResponse.md)
- - [V1ListProjectsResponse](docs/V1ListProjectsResponse.md)
- - [V1ListSessionsResponse](docs/V1ListSessionsResponse.md)
  - [V1ListSipTeleportResponse](docs/V1ListSipTeleportResponse.md)
  - [V1NextPage](docs/V1NextPage.md)
- - [V1Project](docs/V1Project.md)
- - [V1Session](docs/V1Session.md)
  - [V1SipTeleportResponse](docs/V1SipTeleportResponse.md)
  - [V1SipTeleportStatus](docs/V1SipTeleportStatus.md)
  - [V1TeleportAddresses](docs/V1TeleportAddresses.md)
@@ -157,9 +147,7 @@ Class | Method | HTTP request | Description
   - **console:access**: allows access to the console
   - **sipteleport:read**: allows reading details about provisioned SIPTeleport
   - **sipteleport:write**: allows administration of SIPTeleport
-  - **sessions:read**: allows reading details about PacketAccelerator sessions
   - **projects:read**: allows reading details about projects
-  - **projects:write**: allows administration of projects
   - **globalturn:access**: allows administration of GlobalTurn
   - **rtpspeed:read**: allows reading details about rtpspeed
   - **rtpspeed:write**: allows administration of rtpspeed
