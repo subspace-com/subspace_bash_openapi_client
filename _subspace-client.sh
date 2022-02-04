@@ -300,11 +300,11 @@ case $state in
             "acceleratorServiceDelete[]" \
             "acceleratorServiceGet[]" \
             "acceleratorServiceList[]" \
-            "acceleratorServiceUpdate[]"             "globalTurnServiceGetGlobalTurn[]"             "sipTeleportServiceCreate[]" \
+            "acceleratorServiceUpdate[]"             "sipTeleportServiceCreate[]" \
             "sipTeleportServiceDelete[]" \
             "sipTeleportServiceGet[]" \
             "sipTeleportServiceList[]" \
-            "sipTeleportServiceUpdate[]" \
+            "sipTeleportServiceUpdate[]"             "webRtcCdnServiceGetWebRtcCdn[]" \
 
     _arguments "(--help)--help[Print information about operation]"
 
@@ -350,12 +350,6 @@ case $state in
 )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
-      globalTurnServiceGetGlobalTurn)
-        local -a _op_arguments
-        _op_arguments=(
-                              )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
       sipTeleportServiceCreate)
         local -a _op_arguments
         _op_arguments=(
@@ -390,6 +384,12 @@ case $state in
         _op_arguments=(
           "id=:[PATH] "
                     )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      webRtcCdnServiceGetWebRtcCdn)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
     esac

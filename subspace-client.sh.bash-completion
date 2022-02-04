@@ -73,12 +73,12 @@ _subspace-client.sh()
     operations["acceleratorServiceGet"]=1
     operations["acceleratorServiceList"]=1
     operations["acceleratorServiceUpdate"]=1
-    operations["globalTurnServiceGetGlobalTurn"]=1
     operations["sipTeleportServiceCreate"]=1
     operations["sipTeleportServiceDelete"]=1
     operations["sipTeleportServiceGet"]=1
     operations["sipTeleportServiceList"]=1
     operations["sipTeleportServiceUpdate"]=1
+    operations["webRtcCdnServiceGetWebRtcCdn"]=1
 
     # An associative array of operations to their parameters
     # Only include path, query and header parameters
@@ -88,12 +88,12 @@ _subspace-client.sh()
     operation_parameters["acceleratorServiceGet"]="id= "
     operation_parameters["acceleratorServiceList"]="before= limit= name= "
     operation_parameters["acceleratorServiceUpdate"]="id= If-Match: "
-    operation_parameters["globalTurnServiceGetGlobalTurn"]=""
     operation_parameters["sipTeleportServiceCreate"]="Idempotency-Key: "
     operation_parameters["sipTeleportServiceDelete"]="id= "
     operation_parameters["sipTeleportServiceGet"]="id= "
     operation_parameters["sipTeleportServiceList"]="before= limit= "
     operation_parameters["sipTeleportServiceUpdate"]="id= "
+    operation_parameters["webRtcCdnServiceGetWebRtcCdn"]=""
 
     # An associative array of possible values for enum parameters
     declare -A operation_parameters_enum_values

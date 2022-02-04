@@ -1,21 +1,21 @@
-# GlobalTurnServiceApi
+# WebRtcCdnServiceApi
 
 All URIs are relative to **
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**globalTurnServiceGetGlobalTurn**](GlobalTurnServiceApi.md#globalTurnServiceGetGlobalTurn) | **POST** /v1/globalturn | 
+[**webRtcCdnServiceGetWebRtcCdn**](WebRtcCdnServiceApi.md#webRtcCdnServiceGetWebRtcCdn) | **POST** /v1/webrtc-cdn | 
 
 
 
-## globalTurnServiceGetGlobalTurn
+## webRtcCdnServiceGetWebRtcCdn
 
 
 
 ### Example
 
 ```bash
-subspace-client.sh globalTurnServiceGetGlobalTurn
+subspace-client.sh webRtcCdnServiceGetWebRtcCdn
 ```
 
 ### Parameters
@@ -24,7 +24,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**V1GlobalTurnResponse**](V1GlobalTurnResponse.md)
+[**V1WebRtcCdnResponse**](V1WebRtcCdnResponse.md)
 
 ### Authorization
 

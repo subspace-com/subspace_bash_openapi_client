@@ -24,7 +24,7 @@
 # https://subspace.com/
 #
 
-# For improved pattern matching in case statemets
+# For improved pattern matching in case statements
 shopt -s extglob
 
 ###############################################################################
@@ -65,7 +65,7 @@ declare -A header_arguments
 declare -A operation_parameters
 
 ##
-# Declare colors with autodection if output is terminal
+# Declare colors with autodetection if output is terminal
 if [ -t 1 ]; then
     RED="$(tput setaf 1)"
     GREEN="$(tput setaf 2)"
@@ -321,6 +321,29 @@ body_parameters_to_json() {
 
 ##############################################################################
 #
+# Converts an associative array into form urlencoded string
+#
+##############################################################################
+body_parameters_to_form_urlencoded() {
+    local body_form_urlencoded="-d '"
+    local count=0
+    for key in "${!body_parameters[@]}"; do
+        if [[ $((count++)) -gt 0 ]]; then
+            body_form_urlencoded+="&"
+        fi
+        body_form_urlencoded+="${key}=${body_parameters[${key}]}"
+    done
+    body_form_urlencoded+="'"
+
+    if [[ "${#body_parameters[@]}" -eq 0 ]]; then
+        echo ""
+    else
+        echo "${body_form_urlencoded}"
+    fi
+}
+
+##############################################################################
+#
 # Helper method for showing error because for example echo in
 # build_request_path() is evaluated as part of command line not printed on
 # output. Anyway better idea for resource clean up ;-).
@@ -413,7 +436,7 @@ build_request_path() {
                 parameter_value+="${qparam}=${qvalue}"
             done
         #
-        # Append parameters specified as 'mutli' collections i.e. param=value1&param=value2&...
+        # Append parameters specified as 'multi' collections i.e. param=value1&param=value2&...
         #
         elif [[ "${collection_type}" == "multi" ]]; then
             local vcount=0
@@ -531,7 +554,7 @@ EOF
     echo -e "        * sipteleport:read - allows reading details about provisioned SIPTeleport"
     echo -e "        * sipteleport:write - allows administration of SIPTeleport"
     echo -e "        * projects:read - allows reading details about projects"
-    echo -e "        * globalturn:access - allows administration of GlobalTurn"
+    echo -e "        * webrtccdn:access - allows administration of WebRTC-CDN"
     echo -e "        * rtpspeed:read - allows reading details about rtpspeed"
     echo -e "        * rtpspeed:write - allows administration of rtpspeed"
     echo ""
@@ -547,12 +570,6 @@ read -r -d '' ops <<EOF
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
-    echo -e "${BOLD}${WHITE}[globalTurnService]${OFF}"
-read -r -d '' ops <<EOF
-  ${CYAN}globalTurnServiceGetGlobalTurn${OFF}; (AUTH)
-EOF
-echo "  $ops" | column -t -s ';'
-    echo ""
     echo -e "${BOLD}${WHITE}[sipTeleportService]${OFF}"
 read -r -d '' ops <<EOF
   ${CYAN}sipTeleportServiceCreate${OFF}; (AUTH)
@@ -560,6 +577,12 @@ read -r -d '' ops <<EOF
   ${CYAN}sipTeleportServiceGet${OFF}; (AUTH)
   ${CYAN}sipTeleportServiceList${OFF}; (AUTH)
   ${CYAN}sipTeleportServiceUpdate${OFF}; (AUTH)
+EOF
+echo "  $ops" | column -t -s ';'
+    echo ""
+    echo -e "${BOLD}${WHITE}[webRtcCdnService]${OFF}"
+read -r -d '' ops <<EOF
+  ${CYAN}webRtcCdnServiceGetWebRtcCdn${OFF}; (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
@@ -574,7 +597,7 @@ echo -e "              \\t\\t\\t\\t(e.g. 'https://api.subspace.com')"
     echo -e "         \\t\\t\\t\\trequired parameters or wrong content type"
     echo -e "  --dry-run\\t\\t\\t\\tPrint out the cURL command without"
     echo -e "           \\t\\t\\t\\texecuting it"
-    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodected"
+    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodetected"
     echo -e "  -ac,--accept ${YELLOW}<mime-type>${OFF}\\t\\tSet the 'Accept' header in the request"
     echo -e "  -ct,--content-type ${YELLOW}<mime-type>${OFF}\\tSet the 'Content-type' header in "
     echo -e "                                \\tthe request"
@@ -626,7 +649,7 @@ Subspace uses auth0 for JWT token management.  You can acquire a JWT token by ut
 ## Protecting Your API Tokens
 
   * **JWT tokens have a expiration time of 24 hours.**  Once expired, you will have to use your Subspace private API and public token to request a new one.
-  * The Subspace private token can be rotated from within the Subspace console.  Rotation may take up to 10 minutes for all systems to update state to invalidate the older token and enable the new one.
+  * The Subspace private token can be rotated from within the Subspace console.
   * **Keep your secret token safe.** Your secret token can make any API call on behalf of your account, including changes that may impact billing such as enabling pay-as-you-go charges. Do not store your secret token in your version control system. Do not use your secret token outside your web server, such as a browser, mobile app, or distributed file.
   * **You may use the Subspace console to acquire an API token.**
   * **You may use the Subspace console to disable pay-as-you-go.** This may prevent unexpected charges due to unauthorized or abnormal usage.
@@ -890,34 +913,6 @@ print_acceleratorServiceUpdate_help() {
 }
 ##############################################################################
 #
-# Print help for globalTurnServiceGetGlobalTurn operation
-#
-##############################################################################
-print_globalTurnServiceGetGlobalTurn_help() {
-    echo ""
-    echo -e "${BOLD}${WHITE}globalTurnServiceGetGlobalTurn - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo ""
-    echo -e "${BOLD}${WHITE}Responses${OFF}"
-    code=200
-    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=400
-    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=401
-    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=402
-    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=403
-    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=404
-    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=429
-    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-    code=0
-    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-}
-##############################################################################
-#
 # Print help for sipTeleportServiceCreate operation
 #
 ##############################################################################
@@ -1075,6 +1070,34 @@ print_sipTeleportServiceUpdate_help() {
     code=0
     echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
+##############################################################################
+#
+# Print help for webRtcCdnServiceGetWebRtcCdn operation
+#
+##############################################################################
+print_webRtcCdnServiceGetWebRtcCdn_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}webRtcCdnServiceGetWebRtcCdn - ${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;A successful response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=401
+    echo -e "${result_color_table[${code:0:1}]}  401;Access token is missing or invalid${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=402
+    echo -e "${result_color_table[${code:0:1}]}  402;Quota exceeded${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=403
+    echo -e "${result_color_table[${code:0:1}]}  403;Not authorized${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Returned when the resource does not exist.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=429
+    echo -e "${result_color_table[${code:0:1}]}  429;Too many client requests${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;An unexpected error response.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
 
 
 ##############################################################################
@@ -1111,7 +1134,7 @@ call_acceleratorServiceCreate() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1185,9 +1208,9 @@ call_acceleratorServiceDelete() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -1221,9 +1244,9 @@ call_acceleratorServiceGet() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -1257,9 +1280,9 @@ call_acceleratorServiceList() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -1297,7 +1320,7 @@ call_acceleratorServiceUpdate() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1343,42 +1366,6 @@ call_acceleratorServiceUpdate() {
 
 ##############################################################################
 #
-# Call globalTurnServiceGetGlobalTurn operation
-#
-##############################################################################
-call_globalTurnServiceGetGlobalTurn() {
-    # ignore error about 'path_parameter_names' being unused; passed by reference
-    # shellcheck disable=SC2034
-    local path_parameter_names=()
-    # ignore error about 'query_parameter_names' being unused; passed by reference
-    # shellcheck disable=SC2034
-    local query_parameter_names=(  )
-    local path
-
-    if ! path=$(build_request_path "/v1/globalturn" path_parameter_names query_parameter_names); then
-        ERROR_MSG=$path
-        exit 1
-    fi
-    local method="POST"
-    local headers_curl
-    headers_curl=$(header_arguments_to_curl)
-    if [[ -n $header_accept ]]; then
-        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
-    fi
-
-    local basic_auth_option=""
-    if [[ -n $basic_auth_credential ]]; then
-        basic_auth_option="-u ${basic_auth_credential}"
-    fi
-    if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
-    else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
-    fi
-}
-
-##############################################################################
-#
 # Call sipTeleportServiceCreate operation
 #
 ##############################################################################
@@ -1411,7 +1398,7 @@ call_sipTeleportServiceCreate() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1485,9 +1472,9 @@ call_sipTeleportServiceDelete() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -1521,9 +1508,9 @@ call_sipTeleportServiceGet() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -1557,9 +1544,9 @@ call_sipTeleportServiceList() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -1597,7 +1584,7 @@ call_sipTeleportServiceUpdate() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1638,6 +1625,42 @@ call_sipTeleportServiceUpdate() {
         else
             eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
         fi
+    fi
+}
+
+##############################################################################
+#
+# Call webRtcCdnServiceGetWebRtcCdn operation
+#
+##############################################################################
+call_webRtcCdnServiceGetWebRtcCdn() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(  )
+    local path
+
+    if ! path=$(build_request_path "/v1/webrtc-cdn" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="POST"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -1753,9 +1776,6 @@ case $key in
     acceleratorServiceUpdate)
     operation="acceleratorServiceUpdate"
     ;;
-    globalTurnServiceGetGlobalTurn)
-    operation="globalTurnServiceGetGlobalTurn"
-    ;;
     sipTeleportServiceCreate)
     operation="sipTeleportServiceCreate"
     ;;
@@ -1771,6 +1791,9 @@ case $key in
     sipTeleportServiceUpdate)
     operation="sipTeleportServiceUpdate"
     ;;
+    webRtcCdnServiceGetWebRtcCdn)
+    operation="webRtcCdnServiceGetWebRtcCdn"
+    ;;
     *==*)
     # Parse body arguments and convert them into top level
     # JSON properties passed in the body content as strings
@@ -1781,7 +1804,7 @@ case $key in
     ;;
     *:=*)
     # Parse body arguments and convert them into top level
-    # JSON properties passed in the body content without qoutes
+    # JSON properties passed in the body content without quotes
     if [[ "$operation" ]]; then
         # ignore error about 'sep' being unused
         # shellcheck disable=SC2034
@@ -1863,9 +1886,6 @@ case $operation in
     acceleratorServiceUpdate)
     call_acceleratorServiceUpdate
     ;;
-    globalTurnServiceGetGlobalTurn)
-    call_globalTurnServiceGetGlobalTurn
-    ;;
     sipTeleportServiceCreate)
     call_sipTeleportServiceCreate
     ;;
@@ -1880,6 +1900,9 @@ case $operation in
     ;;
     sipTeleportServiceUpdate)
     call_sipTeleportServiceUpdate
+    ;;
+    webRtcCdnServiceGetWebRtcCdn)
+    call_webRtcCdnServiceGetWebRtcCdn
     ;;
     *)
     ERROR_MSG="ERROR: Unknown operation: $operation"

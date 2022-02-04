@@ -38,6 +38,9 @@ $ echo '<body_content>' | subspace-client.sh --host <hostname> --content-type js
 # }
 $ echo '<body_content>' | subspace-client.sh --host <hostname> --content-type json <operationId> key1==value1 key2=value2 key3:=23 -
 
+# Make POST request with form data
+$ subspace-client.sh --host <hostname> <operationId> key1:=value1 key2:=value2 key3:=23
+
 # Preview the cURL command without actually executing it
 $ subspace-client.sh --host http://<hostname>:<port> --dry-run <operationid>
 
@@ -105,12 +108,12 @@ Class | Method | HTTP request | Description
 *AcceleratorServiceApi* | [**acceleratorServiceGet**](docs/AcceleratorServiceApi.md#acceleratorserviceget) | **GET** /v1/accelerator/{id} | 
 *AcceleratorServiceApi* | [**acceleratorServiceList**](docs/AcceleratorServiceApi.md#acceleratorservicelist) | **GET** /v1/accelerator | 
 *AcceleratorServiceApi* | [**acceleratorServiceUpdate**](docs/AcceleratorServiceApi.md#acceleratorserviceupdate) | **PUT** /v1/accelerator/{id} | 
-*GlobalTurnServiceApi* | [**globalTurnServiceGetGlobalTurn**](docs/GlobalTurnServiceApi.md#globalturnservicegetglobalturn) | **POST** /v1/globalturn | 
 *SipTeleportServiceApi* | [**sipTeleportServiceCreate**](docs/SipTeleportServiceApi.md#sipteleportservicecreate) | **POST** /v1/sipteleport | 
 *SipTeleportServiceApi* | [**sipTeleportServiceDelete**](docs/SipTeleportServiceApi.md#sipteleportservicedelete) | **DELETE** /v1/sipteleport/{id} | 
 *SipTeleportServiceApi* | [**sipTeleportServiceGet**](docs/SipTeleportServiceApi.md#sipteleportserviceget) | **GET** /v1/sipteleport/{id} | 
 *SipTeleportServiceApi* | [**sipTeleportServiceList**](docs/SipTeleportServiceApi.md#sipteleportservicelist) | **GET** /v1/sipteleport | 
 *SipTeleportServiceApi* | [**sipTeleportServiceUpdate**](docs/SipTeleportServiceApi.md#sipteleportserviceupdate) | **PUT** /v1/sipteleport/{id} | 
+*WebRtcCdnServiceApi* | [**webRtcCdnServiceGetWebRtcCdn**](docs/WebRtcCdnServiceApi.md#webrtccdnservicegetwebrtccdn) | **POST** /v1/webrtc-cdn | 
 
 
 ## Documentation For Models
@@ -120,8 +123,6 @@ Class | Method | HTTP request | Description
  - [ProtobufAny](docs/ProtobufAny.md)
  - [V1Accelerator](docs/V1Accelerator.md)
  - [V1CreateSipTeleport](docs/V1CreateSipTeleport.md)
- - [V1GlobalTurnResponse](docs/V1GlobalTurnResponse.md)
- - [V1GlobalTurnServer](docs/V1GlobalTurnServer.md)
  - [V1ListAcceleratorResponse](docs/V1ListAcceleratorResponse.md)
  - [V1ListSipTeleportResponse](docs/V1ListSipTeleportResponse.md)
  - [V1NextPage](docs/V1NextPage.md)
@@ -130,6 +131,8 @@ Class | Method | HTTP request | Description
  - [V1TeleportAddresses](docs/V1TeleportAddresses.md)
  - [V1TransportType](docs/V1TransportType.md)
  - [V1UpdateSipTeleport](docs/V1UpdateSipTeleport.md)
+ - [V1WebRtcCdnResponse](docs/V1WebRtcCdnResponse.md)
+ - [V1WebRtcCdnServer](docs/V1WebRtcCdnServer.md)
 
 
 ## Documentation For Authorization
@@ -148,7 +151,7 @@ Class | Method | HTTP request | Description
   - **sipteleport:read**: allows reading details about provisioned SIPTeleport
   - **sipteleport:write**: allows administration of SIPTeleport
   - **projects:read**: allows reading details about projects
-  - **globalturn:access**: allows administration of GlobalTurn
+  - **webrtccdn:access**: allows administration of WebRTC-CDN
   - **rtpspeed:read**: allows reading details about rtpspeed
   - **rtpspeed:write**: allows administration of rtpspeed
 
